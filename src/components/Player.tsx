@@ -6,24 +6,17 @@ type Props = {
 };
 
 const Player = ({ name, symbol }: Props) => {
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  //const [playerName, setPlayerName] = useState<string>(name);
+  const [isEditing, setIsEditing] = useState<boolean>(false);    
 
-  const editPlayer = () => {
-    setIsEditing(true);
-    console.log("isEditing: ", isEditing);
-  };
+  const clickHandler = () => {
+     // setIsEditing(!isEditing);
+    setIsEditing((editing: boolean) => !editing);    
+  }
 
-  const savePlayer = () => {
-    setIsEditing(false);
-  };
-
-  let playerName: ReactNode = <span className="player-name">{name}</span>;
-  let actionButton: ReactNode = <button onClick={editPlayer}>Edit</button>;
+  let playerName: ReactNode = <span className="player-name">{name}</span>;  
 
   if (isEditing) {
-    playerName = <input type="text" value={name} />;
-    actionButton = <button onClick={savePlayer}>Save</button>;
+    playerName = <input type="text" required defaultValue={name} placeholder="Player Name"/>;    
   }
 
   return (
@@ -32,8 +25,7 @@ const Player = ({ name, symbol }: Props) => {
         {playerName}
         <span className="player-symbol">{symbol}</span>
       </span>
-
-      {actionButton}
+      <button onClick={clickHandler}>{isEditing ? 'Save' : 'Edit'}</button>
     </li>
   );
 };
