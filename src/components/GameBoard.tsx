@@ -1,4 +1,6 @@
-type colType = (string | null);
+import { useState } from "react";
+
+type colType = string | null;
 
 const initialGameBoard: colType[][] = [
   [null, null, null],
@@ -7,14 +9,26 @@ const initialGameBoard: colType[][] = [
 ]; // end of const initialGameBoard
 
 const GameBoard = () => {
+  const [gameBoard, setGameBoard] = useState(initialGameBoard);
+
+  const selectSquareHandler = (rowIndex: number, colIndex: number) => {
+    setGameBoard((prevGameBoard) => {
+      const updateBoard = [
+        ...prevGameBoard.map((innerArray) => [...innerArray]),
+      ];
+      prevGameBoard[rowIndex][colIndex] = "X";
+      return updateBoard;
+    });
+  };
+
   return (
     <ol id="game-board">
       {initialGameBoard.map((row, rowIndex) => (
         <li key={rowIndex}>
           <ol>
-            {row.map((col, colIndex) => (
+            {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button>{col}</button>
+                <button>{playerSymbol}</button>
               </li>
             ))}
           </ol>
