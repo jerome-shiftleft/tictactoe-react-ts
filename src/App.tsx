@@ -1,6 +1,7 @@
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Player from "./components/Player";
+import GameBoard from "./components/GameBoard";
 import "./App.scss";
 
 const theme = createTheme({
@@ -18,9 +19,10 @@ function App() {
           <Player initialName="Player 1" symbol="X" />
           <Player initialName="Player 2" symbol="O" />          
         </ol>
+        <GameBoard />
       </div>
     </ThemeProvider>
   );
-}
+} // end of function App()
 
 export default App;
