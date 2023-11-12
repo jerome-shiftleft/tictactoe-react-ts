@@ -1,11 +1,13 @@
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, ChangeEvent } from "react";
 
 type Props = {
-  name: string;
+  initialName: string;
   symbol: string;
 };
 
-const Player = ({ name, symbol }: Props) => {
+const Player = ({ initialName, symbol }: Props) => {
+  const [playerName, setPlayerName] = useState<string>(initialName);
+
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const clickHandler = () => {
@@ -13,23 +15,24 @@ const Player = ({ name, symbol }: Props) => {
     setIsEditing((editing: boolean) => !editing);
   };
 
-  let playerName: ReactNode = <span className="player-name">{name}</span>;
+  type EventType = ChangeEvent<HTMLInputElement>;
+
+  const changeHandler = (event: EventType) => {
+    setPlayerName(event.target.value);
+  };
+
+  let nameField: ReactNode = <span className="player-name">{playerName}</span>;
 
   if (isEditing) {
-    playerName = (
-      <input
-        type="text"
-        required
-        defaultValue={name}
-        placeholder="Player Name"
-      />
+    nameField = (
+      <input onChange={changeHandler} type="text" required value={playerName} />
     );
   }
 
   return (
     <li>
       <span className="player-info">
-        {playerName}
+        {nameField}
         <span className="player-symbol">{symbol}</span>
       </span>
       <button onClick={clickHandler}>{isEditing ? "Save" : "Edit"}</button>
