@@ -1,5 +1,6 @@
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
+import Player from "./components/Player";
 import "./App.scss";
 
 const theme = createTheme({
@@ -14,20 +15,8 @@ function App() {
       <CssBaseline />
       <div id="game-container">
         <ol id="players">
-          <li>
-            <span className="player">
-              <span className="player-name">Player 1</span>
-              <span className="player-symbol">X</span>
-            </span>
-            <button>Edit</button>
-          </li>
-          <li>
-            <span className="player">
-              <span className="player-name">Player 2</span>
-              <span className="player-symbol">O</span>
-            </span>
-            <button>Edit</button>
-          </li>
+          <Player name="Player 1" symbol="X" />
+          <Player name="Player 2" symbol="O" />          
         </ol>
       </div>
     </ThemeProvider>
