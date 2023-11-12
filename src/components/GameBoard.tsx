@@ -19,16 +19,18 @@ const GameBoard = () => {
       prevGameBoard[rowIndex][colIndex] = "X";
       return updateBoard;
     });
+    console.log('updated game board:');
+    console.log(gameBoard);
   };
 
   return (
     <ol id="game-board">
-      {initialGameBoard.map((row, rowIndex) => (
+      {gameBoard.map((row, rowIndex) => (
         <li key={rowIndex}>
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button>{playerSymbol}</button>
+                <button onClick={() => selectSquareHandler(rowIndex, colIndex)}>{playerSymbol}</button>
               </li>
             ))}
           </ol>
