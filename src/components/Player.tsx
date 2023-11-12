@@ -3,9 +3,10 @@ import { useState, ReactNode, ChangeEvent } from "react";
 type Props = {
   initialName: string;
   symbol: string;
+  isActive: boolean;
 };
 
-const Player = ({ initialName, symbol }: Props) => {
+const Player = ({ initialName, symbol, isActive }: Props) => {
   const [playerName, setPlayerName] = useState<string>(initialName);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -30,7 +31,7 @@ const Player = ({ initialName, symbol }: Props) => {
   }
 
   return (
-    <li>
+    <li className={isActive ? 'active': undefined}>
       <span className="player-info">
         {nameField}
         <span className="player-symbol">{symbol}</span>
