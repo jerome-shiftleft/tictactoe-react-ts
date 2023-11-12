@@ -1,0 +1,9 @@
+@function transition($properties...) {
+  $trans: ();
+
+  @each $property in $properties {
+    $trans: append($trans, $property $trans-duration $trans-timing, comma);
+  }
+  
+  @return $trans;
+} // end of @function transition($properties...)
