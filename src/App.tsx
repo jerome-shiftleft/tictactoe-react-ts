@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
+import Log from "./components/Log";
 import "./App.scss";
 
 const theme = createTheme({
@@ -11,12 +12,43 @@ const theme = createTheme({
   },
 });
 
+type Turn = {
+  square: {
+    row: number;
+    col: number;
+  };
+  player: string;
+};
+
+
 function App() {
+  const [gameTurns, setGameTurns] = useState<Turn[]>([]);
   const [activePlayer, setActivePlayer] = useState("X");
 
-  function handleSelectSquare() {
+  function handleSelectSquare(rowIndex: number, colIndex: number) {
     setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
-  }
+    setGameTurns((prevTurns) => {
+      let currentPlayer = 'X';
+
+      if (prevTurns.length > 0 && prevTurns[0].player === 'X') {
+        currentPlayer = 'O';
+      }
+
+      const updatedTurns = [
+        {
+          square: {
+            row: rowIndex,
+            col: colIndex,
+          },
+          player: currentPlayer
+        },        
+        ...prevTurns,
+      ]; // end of const updatedTurns
+
+      return updatedTurns;
+      
+    }); // end of  setGameTurns((prevTurns) => {
+  } // end of function handleSelectSquare
 
   return (
     <ThemeProvider theme={theme}>
@@ -36,9 +68,10 @@ function App() {
         </ol>
         <GameBoard
           onSelectSquare={handleSelectSquare}
-          activePlayerSymbol={activePlayer}
+          turns={gameTurns}
         />
       </div>
+      <Log />
     </ThemeProvider>
   );
 } // end of function App()

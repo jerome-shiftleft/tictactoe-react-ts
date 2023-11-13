@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 type colType = string | null;
 
 const initialGameBoard: colType[][] = [
@@ -8,35 +6,48 @@ const initialGameBoard: colType[][] = [
   [null, null, null],
 ]; // end of const initialGameBoard
 
-type GameBoardProps = {
-  activePlayerSymbol: string;
-  onSelectSquare: () => void;
-}
-
-const GameBoard = ({onSelectSquare, activePlayerSymbol}: GameBoardProps) => {
-  const [gameBoard, setGameBoard] = useState(initialGameBoard);
-
-  const handleSelectSquare = (rowIndex: number, colIndex: number) => {
-    setGameBoard((prevGameBoard) => {
-      const updateBoard = [
-        ...prevGameBoard.map((innerArray) => [...innerArray]),
-      ];
-      prevGameBoard[rowIndex][colIndex] = activePlayerSymbol;
-      return updateBoard;
-    });
-    //console.log('updated game board:');
-    //console.log(gameBoard);
-    onSelectSquare()
+type Turn = {
+  square: {
+    row: number;
+    col: number;
   };
+  player: string;
+};
+
+type GameBoardProps = {
+  onSelectSquare: (rowIndex: number, colIndex: number) => void;
+  turns: Turn[];
+};
+
+const GameBoard = ({ onSelectSquare, turns }: GameBoardProps) => {
+  const gameBoard = initialGameBoard;
+
+  for (const turn of turns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+    gameBoard[row][col] = player;
+  }
+  // const [gameBoard, setGameBoard] = useState(initialGameBoard);
+
+  // const handleSelectSquare = (rowIndex: number, colIndex: number) => {
+  //   setGameBoard((prevGameBoard) => {
+  //     const updateBoard = [
+  //       ...prevGameBoard.map((innerArray) => [...innerArray]),
+  //     ];
+  //     prevGameBoard[rowIndex][colIndex] = activePlayerSymbol;
+  //     return updateBoard;
+  //   });
+  //   onSelectSquare()
+  // };
 
   return (
     <ol id="game-board">
-      {gameBoard.map((row, rowIndex) => (
+      {gameBoard.map((row, rowIndex: number) => (
         <li key={rowIndex}>
           <ol>
             {row.map((playerSymbol, colIndex) => (
               <li key={colIndex}>
-                <button onClick={() => handleSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
+                <button onClick={() => onSelectSquare(rowIndex, colIndex)}>{playerSymbol}</button>
               </li>
             ))}
           </ol>
