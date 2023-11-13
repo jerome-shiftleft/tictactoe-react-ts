@@ -26,19 +26,7 @@ const GameBoard = ({ onSelectSquare, turns }: GameBoardProps) => {
     const { square, player } = turn;
     const { row, col } = square;
     gameBoard[row][col] = player;
-  }
-  // const [gameBoard, setGameBoard] = useState(initialGameBoard);
-
-  // const handleSelectSquare = (rowIndex: number, colIndex: number) => {
-  //   setGameBoard((prevGameBoard) => {
-  //     const updateBoard = [
-  //       ...prevGameBoard.map((innerArray) => [...innerArray]),
-  //     ];
-  //     prevGameBoard[rowIndex][colIndex] = activePlayerSymbol;
-  //     return updateBoard;
-  //   });
-  //   onSelectSquare()
-  // };
+  } 
 
   return (
     <ol id="game-board">
