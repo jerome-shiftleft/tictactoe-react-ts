@@ -20,33 +20,37 @@ type Turn = {
   player: string;
 };
 
+function deriveActivePlayer(gameTurns: Turn[]) {
+  let currentPlayer = "X";
+
+  if (gameTurns.length > 0 && gameTurns[0].player === "X") {
+    currentPlayer = "O";
+  }
+
+  return currentPlayer;
+} // end of function deriveActivePlayer(gameTurns)
 
 function App() {
   const [gameTurns, setGameTurns] = useState<Turn[]>([]);
-  const [activePlayer, setActivePlayer] = useState("X");
+  //const [activePlayer, setActivePlayer] = useState("X");
+
+  const activePlayer = deriveActivePlayer(gameTurns);
 
   function handleSelectSquare(rowIndex: number, colIndex: number) {
-    setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
+    //setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
     setGameTurns((prevTurns) => {
-      let currentPlayer = 'X';
-
-      if (prevTurns.length > 0 && prevTurns[0].player === 'X') {
-        currentPlayer = 'O';
-      }
-
       const updatedTurns = [
         {
           square: {
             row: rowIndex,
             col: colIndex,
           },
-          player: currentPlayer
-        },        
+          player: activePlayer,
+        },
         ...prevTurns,
       ]; // end of const updatedTurns
 
       return updatedTurns;
-      
     }); // end of  setGameTurns((prevTurns) => {
   } // end of function handleSelectSquare
 
@@ -66,10 +70,7 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
-        <GameBoard
-          onSelectSquare={handleSelectSquare}
-          turns={gameTurns}
-        />
+        <GameBoard onSelectSquare={handleSelectSquare} turns={gameTurns} />
       </div>
       <Log turns={gameTurns} />
     </ThemeProvider>
