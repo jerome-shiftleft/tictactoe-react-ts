@@ -71,7 +71,7 @@ function App() {
           turns={gameTurns}
         />
       </div>
-      <Log />
+      <Log turns={gameTurns} />
     </ThemeProvider>
   );
 } // end of function App()
