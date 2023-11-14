@@ -1,36 +1,16 @@
+
 type colType = string | null;
-
-const initialGameBoard: colType[][] = [
-  [null, null, null],
-  [null, null, null],
-  [null, null, null],
-]; // end of const initialGameBoard
-
-type Turn = {
-  square: {
-    row: number;
-    col: number;
-  };
-  player: string;
-};
 
 type GameBoardProps = {
   onSelectSquare: (rowIndex: number, colIndex: number) => void;
-  turns: Turn[];
+  board: (colType | string)[][];
 };
 
-const GameBoard = ({ onSelectSquare, turns }: GameBoardProps) => {
-  const gameBoard = initialGameBoard;
-
-  for (const turn of turns) {
-    const { square, player } = turn;
-    const { row, col } = square;
-    gameBoard[row][col] = player;
-  } 
+const GameBoard = ({ onSelectSquare, board }: GameBoardProps) => {  
 
   return (
     <ol id="game-board">
-      {gameBoard.map((row, rowIndex: number) => (
+      {board.map((row, rowIndex: number) => (
         <li key={rowIndex}>
           <ol>
             {row.map((playerSymbol, colIndex) => (

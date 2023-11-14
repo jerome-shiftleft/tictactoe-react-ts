@@ -4,6 +4,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Player from "./components/Player";
 import GameBoard from "./components/GameBoard";
 import Log from "./components/Log";
+import { WINNING_COMBINATIONS } from "./winning-combinations";
 import "./App.scss";
 
 const theme = createTheme({
@@ -20,6 +21,14 @@ type Turn = {
   player: string;
 };
 
+type colType = string | null;
+
+const initialGameBoard: colType[][] = [
+  [null, null, null],
+  [null, null, null],
+  [null, null, null],
+]; // end of const initialGameBoard
+
 function deriveActivePlayer(gameTurns: Turn[]) {
   let currentPlayer = "X";
 
@@ -32,9 +41,29 @@ function deriveActivePlayer(gameTurns: Turn[]) {
 
 function App() {
   const [gameTurns, setGameTurns] = useState<Turn[]>([]);
-  //const [activePlayer, setActivePlayer] = useState("X");
 
   const activePlayer = deriveActivePlayer(gameTurns);
+
+  const gameBoard = initialGameBoard;
+
+  for (const turn of gameTurns) {
+    const { square, player } = turn;
+    const { row, col } = square;
+    gameBoard[row][col] = player;
+  }
+
+  let winner: (string | null) = null;
+
+  for (const combination of WINNING_COMBINATIONS) {
+    const firstSquareSymbol = gameBoard[combination[0].row][combination[0].column];
+    const secondSquareSymbol = gameBoard[combination[1].row][combination[1].column];
+    const thirdSquareSymbol = gameBoard[combination[2].row][combination[2].column];
+
+    if (firstSquareSymbol && firstSquareSymbol === secondSquareSymbol && firstSquareSymbol === thirdSquareSymbol) {
+      winner = firstSquareSymbol;
+    }
+
+  } // end of for (const combination of WINNING_COMBINATIONS)
 
   function handleSelectSquare(rowIndex: number, colIndex: number) {
     //setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
@@ -70,7 +99,8 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
-        <GameBoard onSelectSquare={handleSelectSquare} turns={gameTurns} />
+        {winner && <p>You won, {winner}!</p>}
+        <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />
     </ThemeProvider>
