@@ -53,7 +53,7 @@ function App() {
     gameBoard[row][col] = player;
   }
 
-  let winner: (string | null) = null;
+  let winner: (string | null | boolean) = null;
 
   for (const combination of WINNING_COMBINATIONS) {
     const firstSquareSymbol = gameBoard[combination[0].row][combination[0].column];
@@ -65,6 +65,8 @@ function App() {
     }
 
   } // end of for (const combination of WINNING_COMBINATIONS)
+
+  const hasDraw: boolean = gameTurns.length === 9 && !winner;
 
   function handleSelectSquare(rowIndex: number, colIndex: number) {
     //setActivePlayer((curActivePlayer) => (curActivePlayer === "X" ? "O" : "X"));
@@ -100,7 +102,7 @@ function App() {
             isActive={activePlayer === "O"}
           />
         </ol>
-        {winner && <GameOver winner={winner} />}
+        {(winner || hasDraw) && <GameOver winner={winner} />}
         <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />

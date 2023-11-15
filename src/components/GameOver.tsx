@@ -5,7 +5,8 @@ type Props = {
 function GameOver({winner}: Props) {
   return (
     <div id="game-over">
-      <p>{winner} won!</p>
+      {winner && <p>{winner} won!</p>}
+      {!winner && <p>It's a draw</p>}
       <p>
         <button>Rematch!</button>
       </p>
