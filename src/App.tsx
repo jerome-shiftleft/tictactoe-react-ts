@@ -30,6 +30,11 @@ const initialGameBoard: colType[][] = [
   [null, null, null],
 ]; // end of const initialGameBoard
 
+type PlayersState = {
+  X: string;
+  O: string;
+}
+
 function deriveActivePlayer(gameTurns: Turn[]) {
   let currentPlayer = "X";
 
@@ -41,6 +46,10 @@ function deriveActivePlayer(gameTurns: Turn[]) {
 } // end of function deriveActivePlayer(gameTurns)
 
 function App() {
+  const [players, setPlayers] = useState<PlayersState>({
+    X: 'Player 1',
+    O: 'Player 2'
+  });
   const [gameTurns, setGameTurns] = useState<Turn[]>([]);
 
   const activePlayer = deriveActivePlayer(gameTurns);
@@ -68,7 +77,7 @@ function App() {
       firstSquareSymbol === secondSquareSymbol &&
       firstSquareSymbol === thirdSquareSymbol
     ) {
-      winner = firstSquareSymbol;
+      winner = players[firstSquareSymbol];
     }
   } // end of for (const combination of WINNING_COMBINATIONS)
 
@@ -96,6 +105,15 @@ function App() {
     setGameTurns([]);
   }
 
+  function handlePlayerNameChange(symbol: string, newName: string) {
+    setPlayers(prevPlayers => {
+      return {
+        ...prevPlayers,
+        [symbol]: newName
+      }
+    })
+  }
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -105,11 +123,13 @@ function App() {
             initialName="Player 1"
             symbol="X"
             isActive={activePlayer === "X"}
+            onChangeName={handlePlayerNameChange}
           />
           <Player
             initialName="Player 2"
             symbol="O"
             isActive={activePlayer === "O"}
+            onChangeName={handlePlayerNameChange}
           />
         </ol>
         {(winner || hasDraw) && <GameOver winner={winner} onRestart={handleRestart} />}

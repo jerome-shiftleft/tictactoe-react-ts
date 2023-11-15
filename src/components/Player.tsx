@@ -4,9 +4,10 @@ type Props = {
   initialName: string;
   symbol: string;
   isActive: boolean;
+  onChangeName: (symbol: string, newName: string) => void;
 };
 
-const Player = ({ initialName, symbol, isActive }: Props) => {
+const Player = ({ initialName, symbol, isActive, onChangeName }: Props) => {
   const [playerName, setPlayerName] = useState<string>(initialName);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -14,6 +15,10 @@ const Player = ({ initialName, symbol, isActive }: Props) => {
   const clickHandler = () => {
     // setIsEditing(!isEditing);
     setIsEditing((editing: boolean) => !editing);
+    if (isEditing) {
+      onChangeName(symbol, playerName);
+    }
+    
   };
 
   type EventType = ChangeEvent<HTMLInputElement>;
