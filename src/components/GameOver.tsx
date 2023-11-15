@@ -1,14 +1,10 @@
-type Props = {
-  winner: string | null;
-}
-
-function GameOver({winner}: Props) {
+function GameOver({winner, onRestart}) {
   return (
     <div id="game-over">
       {winner && <p>{winner} won!</p>}
       {!winner && <p>It's a draw</p>}
       <p>
-        <button>Rematch!</button>
+        <button onClick={onRestart}>Rematch!</button>
       </p>
     </div>
   )
