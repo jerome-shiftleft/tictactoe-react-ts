@@ -56,7 +56,7 @@ function deriveActivePlayer(gameTurns: Turn[]): string {
 }
 
 function deriveGameBoard(gameTurns: Turn[]): (string | null)[][] {
-  let gameBoard: (string | null)[][] = [...INITIAL_GAME_BOARD.map((array) => [...array])];
+  const gameBoard: (string | null)[][] = [...INITIAL_GAME_BOARD.map((array) => [...array])];
 
   for (const turn of gameTurns) {
     const { square, player } = turn;
@@ -76,8 +76,13 @@ function deriveWinner(gameBoard: (string | null)[][], players: Players): string 
     const secondSquareSymbol = gameBoard[combination[1].row][combination[1].column];
     const thirdSquareSymbol = gameBoard[combination[2].row][combination[2].column];
 
-    if (firstSquareSymbol && firstSquareSymbol === secondSquareSymbol && firstSquareSymbol === thirdSquareSymbol) {
-      winner = players[firstSquareSymbol];
+    if (
+      firstSquareSymbol &&
+      firstSquareSymbol === secondSquareSymbol &&
+      firstSquareSymbol === thirdSquareSymbol
+    ) {
+      const validFirstSquareSymbol: 'X' | 'O' = firstSquareSymbol as 'X' | 'O';
+      winner = players[validFirstSquareSymbol];
     }
   }
 
